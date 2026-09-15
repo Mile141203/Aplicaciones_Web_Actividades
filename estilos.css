@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif; /
+}
+
+body {
+    background-color: #f7f9fa;
+    color: #000000;
+    line-height: 1.5;
+    padding: 30px 15px;
+}
+
+.main-container {
+    max-width: 850px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 40px;
+    border: 1px solid #dcdcdc;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.header-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.photo-container {
+    flex-shrink: 0;
+}
+
+.profile-photo {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    display: block;
+}
+
+.personal-info p {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+
+.item {
+    margin-bottom: 14px;
+}
+
+.item-title {
+    font-size: 1.05rem;
+    color: #000000;
+}
+
+.institution {
+    font-size: 1.05rem;
+    color: #000000;
+}
+
+.item-desc {
+    font-size: 1rem;
+    color: #222222;
+}
+
+.skills-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.references-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.references-table th, 
+.references-table td {
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.references-table th {
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .header-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .personal-info {
+        text-align: left;
+    }
+}
