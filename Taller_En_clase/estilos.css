@@ -1,0 +1,67 @@
+/* --- RESET Y ESTILOS BASE --- */
+/* Le quito el margen feito que trae el navegador por defecto y pongo una fuente decente */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7f6; /* Un gris super clarito para no lastimar mucho la vista */
+  color: #333;
+  line-height: 1.6;
+}
+
+/* El banner superior bien oscuro para dar contraste y centradito */
+header {
+  background: #d68bbc;
+  color: white;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* --- MODELO DE CAJA (BOX MODEL) --- */
+/* La tarjeta central: le doy ancho máximo, la centro y le meto sombra  */
+.contenedor {
+  width: 80%;
+  max-width: 800px;
+  margin: 20px auto; /* Con 'auto' a los lados se centra sola en la pantalla */
+  background: white;
+  padding: 30px;     /* Espacio adentro para que el texto respire */
+  border-radius: 8px; /* Bordes redondeados para que se vea moderna */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombrerita suave */
+}
+
+/* El botoncito de contacto con un toque interactivo */
+.boton-contacto {
+  display: inline-block;
+  background-color: #d68bbc;
+  color: white;
+  text-decoration: none; /* Quita el subrayado típico de los links */
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.boton-contacto:hover {
+  background-color: #34495e;
+}
+
+/* --- RETO DE FLEXBOX --- */
+/* Aquí la magia para poner las habilidades una al lado de la otra sin complicarse */
+.habilidades {
+  display: flex;
+  justify-content: space-around; /* Reparte los elementos con espacio uniforme */
+  list-style: none;             /* Chau a los puntitos típicos de lista */
+  padding: 0;
+  margin-top: 20px;
+  flex-wrap: wrap;              /* Por si la pantalla es chica, que bajen sin romperse */
+  gap: 10px;
+}
+
+/* Cada pastilla o etiqueta de habilidad */
+.habilidades li {
+  background: #eef2f5;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}

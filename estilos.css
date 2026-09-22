@@ -16,8 +16,8 @@ body {
 
 .cv-page {
     width: 880px;
-    min-height: 1100px;
-    background-color: #ffffff;
+    min-height: 1150px;
+    background-color: #f1e4fb;
     display: flex;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -27,14 +27,13 @@ body {
 
 .sidebar-container {
     width: 36%;
-    background-color: #f1e4fb;
     padding: 45px 30px 40px 30px;
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-right: 1px solid rgba(138, 75, 175, 0.1);
+    border-right: 1px solid rgba(23, 195, 43, 0.1);
 }
 
 .sidebar-container::after {
@@ -50,8 +49,8 @@ body {
 }
 
 .photo-wrapper {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
     background-color: #ffffff;
     border-radius: 50%;
     padding: 6px;
@@ -92,7 +91,7 @@ body {
     margin-bottom: 22px;
     color: #3b224c;
     font-size: 0.85rem;
-    line-height: 1.5;
+    line-height: 1.45;
 }
 
 .sidebar-heading {
@@ -105,8 +104,12 @@ body {
 }
 
 .sidebar-section p {
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     word-break: break-word;
+}
+
+.sidebar-bio {
+    text-align: justify;
 }
 
 .main-content {
@@ -126,6 +129,7 @@ body {
     font-weight: 700;
     color: #632d8a;
     margin-bottom: 14px;
+    text-transform: capitalize;
 }
 
 .record-item {
@@ -161,9 +165,9 @@ body {
     list-style-type: disc;
     padding-left: 18px;
     margin-top: 4px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: #333333;
-    line-height: 1.5;
+    line-height: 1.45;
 }
 
 .table-container {
@@ -174,13 +178,13 @@ body {
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     margin-top: 6px;
 }
 
 .data-table th,
 .data-table td {
-    padding: 8px 6px;
+    padding: 7px 6px;
     text-align: left;
     border-bottom: 1px solid #f0e6f7;
 }
