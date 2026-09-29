@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #fdf4f5 0%, #fae8eb 50%, #f5dce0 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.contenedor {
+    background: #ffffff;
+    width: 100%;
+    max-width: 460px;
+    padding: 35px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(184, 115, 131, 0.2);
+    border: 1px solid #f3d5dc;
+}
+
+h2 {
+    text-align: center;
+    color: #723b49;
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.campo {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #633f48;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #ecd0d6;
+    background-color: #fffbfc;
+    border-radius: 8px;
+    font-size: 14.5px;
+    color: #4a2830;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+input::placeholder {
+    color: #bfa3a9;
+}
+
+input:focus {
+    border-color: #c97a8e;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(201, 122, 142, 0.2);
+}
+
+.error {
+    color: #c93b3b;
+    font-size: 12px;
+    margin-top: 5px;
+    min-height: 16px;
+    font-weight: 500;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #d68bbc 0%, #b85c7a 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(184, 92, 122, 0.3);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #c97aab 0%, #a34865 100%);
+    box-shadow: 0 6px 18px rgba(184, 92, 122, 0.4);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}

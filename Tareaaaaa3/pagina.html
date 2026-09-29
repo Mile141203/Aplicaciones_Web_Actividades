@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Clientes</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h2>Registro de Clientes</h2>
+        
+        <form id="formularioCliente" onsubmit="return validarFormulario()">
+            <div class="campo">
+                <label for="cedula">Cédula (10 dígitos)</label>
+                <input type="text" id="cedula" maxlength="10" placeholder="Ej: 1710034065" oninput="validarCedula()">
+                <span class="error" id="errorCedula"></span>
+            </div>
+
+            <div class="campo">
+                <label for="nombre">Nombre Completo (máx 30 caracteres)</label>
+                <input type="text" id="nombre" maxlength="30" placeholder="Ej: Juan Perez" oninput="validarNombre()">
+                <span class="error" id="errorNombre"></span>
+            </div>
+
+            <div class="campo">
+                <label for="direccion">Dirección (máx 50 caracteres)</label>
+                <input type="text" id="direccion" maxlength="50" placeholder="Ej: Av. Amazonas y Naciones Unidas" oninput="validarDireccion()">
+                <span class="error" id="errorDireccion"></span>
+            </div>
+
+            <div class="campo">
+                <label for="telefono">Teléfono Celular (10 dígitos)</label>
+                <input type="text" id="telefono" maxlength="10" placeholder="Ej: 0987654321" oninput="validarTelefono()">
+                <span class="error" id="errorTelefono"></span>
+            </div>
+
+            <div class="campo">
+                <label for="correo">Correo Electrónico</label>
+                <input type="text" id="correo" placeholder="Ej: cliente@correo.com" oninput="validarCorreo()">
+                <span class="error" id="errorCorreo"></span>
+            </div>
+
+            <button type="submit" id="btnGuardar">Registrar Cliente</button>
+        </form>
+    </div>
+
+    <script src="validaciones.js"></script>
+</body>
+</html>
