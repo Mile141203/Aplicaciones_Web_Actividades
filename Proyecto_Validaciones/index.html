@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>DocuGrado - Sistema de Titulación</title>
+  <style>
+    * { box-sizing: border-box; font-family: "Georgia", serif; word-break: break-word; margin: 0; padding: 0; }
+    body { background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; color: #222; }
+    header { width: 100%; background: #bfe5f7; border-bottom: 2px solid #000; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; }
+    .card { background: #fff; border: 2px solid #000; border-radius: 12px; padding: 25px; width: 92%; max-width: 900px; margin-top: 25px; box-shadow: 3px 3px 0 #000; }
+    .grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 20px; margin: 15px 0; }
+    .box { border: 1.5px solid #000; border-radius: 8px; padding: 15px; background: #fafafa; }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 0.88rem; }
+    input, select, textarea { width: 100%; padding: 8px; border: 1.5px solid #000; border-radius: 5px; font-size: 0.9rem; background: #fff; }
+    button { padding: 9px 18px; border: 1.5px solid #000; border-radius: 5px; background: #eedcb6; font-weight: bold; cursor: pointer; transition: 0.1s; }
+    button:hover { background: #dfcb9f; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+    th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+    th { background: #eedcb6; }
+    .screen { display: none; }
+    .badge { display: inline-block; padding: 3px 7px; border: 1px solid #000; border-radius: 4px; font-weight: bold; font-size: 0.8rem; background: #eef2f7; }
+    .msg { padding: 10px; border-radius: 6px; border: 1.5px solid #000; margin-bottom: 12px; font-weight: bold; font-size: 0.88rem; }
+    .msg-ok { background: #d4edda; color: #155724; }
+    .msg-warn { background: #fff3cd; color: #856404; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <strong style="font-size:1.05rem;">SISTEMA DOCUGRADO - GESTIÓN Y CONTROL DE TITULACIÓN</strong>
+    <div>
+      <span id="userTxt">Invitado</span>
+      <button id="btnLogout" onclick="logout()" style="display:none; padding:4px 10px; margin-left:10px;">Cerrar Sesión</button>
+    </div>
+  </header>
+
+  <!-- 1. LOGIN / REGISTRO -->
+  <div id="scr-login" class="card" style="max-width:440px; display:block;">
+    <!-- Vista Login -->
+    <div id="box-login">
+      <h3 style="text-align:center; margin-bottom:15px;">Iniciar Sesión</h3>
+      <div class="form-group"><label>Correo institucional:</label><input id="uUser" placeholder="ejemplo@live.uleam.edu.ec"></div>
+      <div class="form-group"><label>Contraseña:</label><input type="password" id="uPass" placeholder="••••••••"></div>
+      <button onclick="login()" style="width:100%; margin-top:5px;">Ingresar al Sistema</button>
+      <p style="text-align:center; margin-top:15px; font-size:0.85rem;">
+        ¿No tienes cuenta? <a href="javascript:void(0)" onclick="toggleAuth(true)" style="color:blue; font-weight:bold;">Regístrate aquí</a>
+      </p>
+    </div>
+
+    <!-- Vista Registro -->
+    <div id="box-register" style="display:none;">
+      <h3 style="text-align:center; margin-bottom:15px;">Registro de Usuario</h3>
+      <div class="form-group"><label>Nombre completo:</label><input id="rName" placeholder="Nombres y Apellidos"></div>
+      <div class="form-group"><label>Correo institucional (@live.uleam.edu.ec):</label><input id="rEmail" placeholder="usuario@live.uleam.edu.ec"></div>
+      <div class="form-group"><label>Contraseña (mínimo 4 caracteres):</label><input type="password" id="rPass" placeholder="••••"></div>
+      <div class="form-group">
+        <label>Rol institucional:</label>
+        <select id="rRole">
+          <option value="estudiante">Estudiante</option>
+          <option value="tutor">Docente Tutor</option>
+          <option value="coordinador">Coordinador de Carrera</option>
+          <option value="tribunal">Aval Tribunal</option>
+        </select>
+      </div>
+      <button onclick="register()" style="width:100%; margin-top:5px;">Completar Registro</button>
+      <p style="text-align:center; margin-top:15px; font-size:0.85rem;">
+        ¿Ya tienes cuenta? <a href="javascript:void(0)" onclick="toggleAuth(false)" style="color:blue; font-weight:bold;">Inicia sesión</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- 2. VISTA ESTUDIANTE -->
+  <div id="scr-estudiante" class="card screen">
+    <h3 id="sGreeting">Portal del Estudiante</h3>
+    <div class="grid">
+      <div class="box">
+        <div class="form-group"><label>Tema de Titulación:</label><input id="sTema" placeholder="Tema formal de investigación"></div>
+        <div class="form-group"><label>Objetivo General:</label><textarea id="sObj" rows="3" placeholder="Formulación del objetivo general"></textarea></div>
+        <p><strong>Tutor Asignado:</strong> <span id="sTutorTxt" style="color:#004085;">Sin asignar</span></p>
+        <p style="margin-top:5px;"><strong>Estado del Proceso:</strong> <span id="sStatus" class="badge">Sin entrega</span></p>
+      </div>
+      <div class="box">
+        <div class="form-group"><label>Documento de Avance (PDF):</label><input type="file" id="sFile" accept=".pdf"></div>
+        <p id="sFileTxt" style="font-size:0.85rem; color:#555;">Ningún archivo subido.</p>
+        <div id="sFeedback" class="box" style="margin-top:10px; background:#fff3cd; border-color:#ffeeba; display:none;"></div>
+      </div>
+    </div>
+    <button onclick="sendStudent()">Enviar Propuesta / Avance</button>
+
+    <h4 style="margin-top:20px;">Historial de Versiones Entregadas</h4>
+    <table id="tblStudentVersions">
+      <thead><tr><th>Versión</th><th>Fecha</th><th>Tema</th><th>Archivo</th><th>Estado</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- 3. VISTA COORDINADOR (ASIGNA TUTORES) -->
+  <div id="scr-coordinador" class="card screen">
+    <h3>Comisión / Coordinación de Titulación</h3>
+    <p style="margin-bottom:12px; font-size:0.9rem;">Asignación formal de directores de trabajo de titulación.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Estudiante</th>
+          <th>Tema de Tesis</th>
+          <th>Estado Actual</th>
+          <th>Tutor Asignado</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tbCoord"></tbody>
+    </table>
+  </div>
+
+  <!-- 4. VISTA DOCENTE TUTOR -->
+  <div id="scr-tutor" class="card screen">
+    <h3>Panel de Tutoría Académica</h3>
+    <div class="grid">
+      <div class="box">
+        <div class="form-group">
+          <label>Seleccionar Estudiante Asignado:</label>
+          <select id="tStudentSel" onchange="loadTutorStudentData()">
+            <option value="">-- Seleccionar --</option>
+          </select>
+        </div>
+        <p><strong>Tema:</strong> <span id="tTema">--</span></p><br>
+        <p><strong>Objetivo:</strong> <span id="tObj">--</span></p><br>
+        <p><strong>Documento:</strong> <span id="tFile" style="color:blue;">--</span></p>
+      </div>
+      <div class="box">
+        <div class="form-group">
+          <label>Dictamen de Revisión:</label>
+          <select id="tDecision">
+            <option value="">-- Seleccionar Dictamen --</option>
+            <option value="Tema Aprobado">Aprobar Tema (En Desarrollo)</option>
+            <option value="Rechazado">Rechazar / Requiere Correcciones</option>
+            <option value="Tutoría Culminada">Culminar Tutoría (Aptitud para Tribunal)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Retroalimentación / Justificación:</label><textarea id="tObs" rows="3" placeholder="Obligatorio si se rechaza"></textarea></div>
+        <button onclick="sendTutor()">Asentar Resolución</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. VISTA AVAL TRIBUNAL -->
+  <div id="scr-tribunal" class="card screen">
+    <h3>Comisión Evaluadora / Aval de Tribunal</h3>
+    <div id="triWarning" class="msg msg-warn">Selecciona un proyecto con tutoría culminada.</div>
+    <div class="grid">
+      <div class="box">
+        <div class="form-group">
+          <label>Estudiante a Calificar (Solo tutorías concluidas):</label>
+          <select id="avalSel" onchange="updateProm()"></select>
+        </div>
+        <p style="margin-bottom:8px; font-weight:bold;">Checklist de Requisitos Normativos:</p>
+        <label><input type="checkbox" id="chk1"> Certificado de Antiplagio verificado</label><br><br>
+        <label><input type="checkbox" id="chk2"> Horas de vinculación/prácticas convalidadas</label><br><br>
+        <label><input type="checkbox" id="chk3"> Formato de estilo y estructura aprobado</label>
+      </div>
+      <div class="box">
+        <div class="form-group"><label>Nota Escrita / Estructura (1-10):</label><input type="number" id="n1" value="10" min="1" max="10" step="0.1" oninput="updateProm()"></div>
+        <div class="form-group"><label>Nota Metodología y Resultados (1-10):</label><input type="number" id="n2" value="9.5" min="1" max="10" step="0.1" oninput="updateProm()"></div>
+        <p style="text-align:right; font-size:1.1rem; margin-top:15px;"><strong>Promedio Final: </strong><span id="promTxt">9.8</span>/10</p>
+      </div>
+    </div>
+    <button onclick="sendTribunal()">Firmar y Emitir Aval de Titulación</button>
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // EXPRESIONES REGULARES (RegEx)
+    // ----------------------------------------------------
+    const REGEX_EMAIL = /^[a-zA-Z0-9._%+-]+@live\.uleam\.edu\.ec$/; // Correo institucional ULEAM estricto
+    const REGEX_PDF   = /\.pdf$/i;                                  // Extensión .pdf sin distinguir mayúsculas
+    const REGEX_TEXT  = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,;:()\- ]{10,}$/;  // Texto sustancial mínimo 10 caracteres
+    const REGEX_NAME  = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,}$/;              // Nombre sin números ni símbolos raros
+
+    // Atajo DOM
+    const $ = id => document.getElementById(id);
+
+    // ----------------------------------------------------
+    // BASE DE DATOS EN MEMORIA
+    // ----------------------------------------------------
+    let current = null;
+
+    const users = {
+      "milena@live.uleam.edu.ec":  { pass: "123", role: "estudiante", name: "Milena Nicole Loor Zambrano" },
+      "fabian@live.uleam.edu.ec":  { pass: "123", role: "tutor",      name: "Ing. Fabián Zambrano" },
+      "coord@live.uleam.edu.ec":   { pass: "123", role: "coordinador", name: "Dra. Coordinadora Académica" },
+      "tribunal@live.uleam.edu.ec":{ pass: "123", role: "tribunal",   name: "Tribunal Evaluador de Grado" }
+    };
+
+    let projects = {
+      "milena@live.uleam.edu.ec": {
+        tema: 'Software para registro y control de trabajos de titulación (DocuGrado)',
+        obj: 'Desarrollar un aplicativo SPA con trazabilidad de revisiones y aval normativo.',
+        file: 'Propuesta_Inicial.pdf',
+        status: 'Sin entrega',
+        obs: '',
+        tutor: null,
+        versions: []
+      }
+    };
+
+    // Funciones auxiliares de filtrado
+    const getStudents = () => Object.keys(users).filter(k => users[k].role === 'estudiante');
+    const getTutors   = () => Object.keys(users).filter(k => users[k].role === 'tutor');
+
+    // ----------------------------------------------------
+    // AUTENTICACIÓN Y REGISTRO
+    // ----------------------------------------------------
+    function toggleAuth(showReg) {
+      $('box-login').style.display = showReg ? 'none' : 'block';
+      $('box-register').style.display = showReg ? 'block' : 'none';
+    }
+
+    function register() {
+      const name  = $('rName').value.trim();
+      const email = $('rEmail').value.trim().toLowerCase();
+      const pass  = $('rPass').value.trim();
+      const role  = $('rRole').value;
+
+      if (!REGEX_NAME.test(name)) return alert('Nombre inválido. Ingresa solo letras (mínimo 3 caracteres).');
+      if (!REGEX_EMAIL.test(email)) return alert('Correo inválido. Debe pertenecer al dominio @live.uleam.edu.ec');
+      if (pass.length < 4) return alert('La contraseña debe tener mínimo 4 caracteres.');
+      if (users[email]) return alert('Este correo ya se encuentra registrado.');
+
+      // Registro en el objeto de usuarios
+      users[email] = { pass, role, name };
+
+      // Si es estudiante, se inicializa su expediente en projects
+      if (role === 'estudiante') {
+        projects[email] = { tema: '', obj: '', file: '', status: 'Sin entrega', obs: '', tutor: null, versions: [] };
+      }
+
+      alert('¡Registro exitoso! Ya puedes iniciar sesión.');
+      $('rName').value = ''; $('rEmail').value = ''; $('rPass').value = '';
+      toggleAuth(false);
+    }
+
+    function login() {
+      const u = $('uUser').value.trim().toLowerCase();
+      const p = $('uPass').value.trim();
+
+      if (!u || !p) return alert('Por favor completa todos los campos.');
+      if (!REGEX_EMAIL.test(u)) return alert('El usuario debe ser un correo institucional (@live.uleam.edu.ec).');
+
+      const acc = users[u];
+      if (!acc || acc.pass !== p) return alert('Credenciales incorrectas. Verifica correo y clave.');
+
+      current = u;
+      $('userTxt').innerText = `${acc.name} (${acc.role.toUpperCase()})`;
+      $('btnLogout').style.display = 'inline-block';
+      $('uUser').value = ''; $('uPass').value = '';
+      showScreen(acc.role);
+      render();
+    }
+
+    function logout() {
+      current = null;
+      $('userTxt').innerText = 'Invitado';
+      $('btnLogout').style.display = 'none';
+      showScreen('login');
+      toggleAuth(false);
+    }
+
+    function showScreen(role) {
+      document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+      const target = $('scr-' + role);
+      if (target) target.style.display = 'block';
+    }
+
+    // ----------------------------------------------------
+    // LÓGICA: ESTUDIANTE
+    // ----------------------------------------------------
+    function sendStudent() {
+      const p = projects[current];
+      const t = $('sTema').value.trim();
+      const o = $('sObj').value.trim();
+      const f = $('sFile').files[0];
+
+      if (!REGEX_TEXT.test(t)) return alert('El tema debe tener al menos 10 caracteres alfanuméricos válidos.');
+      if (!REGEX_TEXT.test(o)) return alert('El objetivo debe tener al menos 10 caracteres alfanuméricos válidos.');
+      if (!p.file && (!f || !REGEX_PDF.test(f.name))) return alert('Debes adjuntar un archivo con extensión .pdf obligatoriamente.');
+
+      p.tema = t;
+      p.obj = o;
+      if (f) p.file = f.name;
+      
+      // Si el tema ya estaba aprobado, una nueva subida es una corrección en desarrollo
+      p.status = p.status === 'Tema Aprobado' ? 'Tema Aprobado' : 'Pendiente de Revisión';
+      p.obs = '';
+
+      // Control de versiones
+      p.versions.push({
+        v: p.versions.length + 1,
+        fecha: new Date().toLocaleDateString('es-EC') + ' ' + new Date().toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' }),
+        tema: t,
+        file: p.file,
+        estado: p.status
+      });
+
+      $('sFile').value = '';
+      render();
+      alert('Entrega enviada con éxito. Registrada como versión v' + p.versions.length);
+    }
+
+    function renderStudent() {
+      const p = projects[current];
+      $('sGreeting').innerText = `Portal del Estudiante - ${users[current].name}`;
+      $('sTema').value = p.tema || '';
+      $('sObj').value = p.obj || '';
+      $('sStatus').innerText = p.status;
+      $('sTutorTxt').innerText = p.tutor ? users[p.tutor].name : 'Pendiente de asignación por Coordinación';
+      $('sFileTxt').innerText = p.file ? `Archivo actual cargado: ${p.file}` : 'Ningún archivo subido.';
+
+      if (p.obs) {
+        $('sFeedback').style.display = 'block';
+        $('sFeedback').innerHTML = `<strong>Observaciones del Tutor:</strong> ${p.obs}`;
+      } else {
+        $('sFeedback').style.display = 'none';
+      }
+
+      // Tabla de versiones
+      $('tblStudentVersions').querySelector('tbody').innerHTML = p.versions.length ? p.versions.map(v => `
+        <tr>
+          <td><strong>v${v.v}.0</strong></td>
+          <td>${v.fecha}</td>
+          <td>${v.tema}</td>
+          <td><span style="color:blue;">${v.file}</span></td>
+          <td><span class="badge">${v.estado}</span></td>
+        </tr>
+      `).reverse().join('') : '<tr><td colspan="5" style="text-align:center;">No hay versiones entregadas aún.</td></tr>';
+    }
+
+    // ----------------------------------------------------
+    // LÓGICA: COORDINADOR (ASIGNAR TUTORES)
+    // ----------------------------------------------------
+    function renderCoordinator() {
+      const st = getStudents();
+      const tu = getTutors();
+
+      $('tbCoord').innerHTML = st.map(s => {
+        const prj = projects[s];
+        const opts = '<option value="">-- Asignar Tutor --</option>' + tu.map(t => `
+          <option value="${t}" ${prj.tutor === t ? 'selected' : ''}>${users[t].name}</option>
+        `).join('');
+
+        const isLocked = prj.status.startsWith('Avalado');
+
+        return `
+          <tr>
+            <td><strong>${users[s].name}</strong><br><small>${s}</small></td>
+            <td>${prj.tema || '<em>(Sin tema registrado)</em>'}</td>
+            <td><span class="badge">${prj.status}</span></td>
+            <td>
+              <select id="sel-coord-${s.replace(/[@.]/g,'_')}" ${isLocked ? 'disabled' : ''}>${opts}</select>
+            </td>
+            <td>
+              <button onclick="coordAssign('${s}')" ${isLocked ? 'disabled' : ''} style="padding:4px 8px; font-size:0.8rem;">Guardar</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function coordAssign(studentKey) {
+      const elId = `sel-coord-${studentKey.replace(/[@.]/g,'_')}`;
+      const selectedTutor = $(elId).value;
+
+      if (!selectedTutor) return alert('Selecciona un docente tutor válido de la lista.');
+      projects[studentKey].tutor = selectedTutor;
+      alert(`Tutor asignado con éxito a ${users[studentKey].name}`);
+      renderCoordinator();
+    }
+
+    // ----------------------------------------------------
+    // LÓGICA: DOCENTE TUTOR
+    // ----------------------------------------------------
+    function renderTutor() {
+      const myStudents = getStudents().filter(s => projects[s].tutor === current);
+      const sel = $('tStudentSel');
+
+      sel.innerHTML = myStudents.length 
+        ? '<option value="">-- Seleccionar Estudiante --</option>' + myStudents.map(s => `<option value="${s}">${users[s].name}</option>`).join('')
+        : '<option value="">-- No tienes tesistas asignados --</option>';
+
+      loadTutorStudentData();
+    }
+
+    function loadTutorStudentData() {
+      const s = $('tStudentSel').value;
+      if (!s) {
+        $('tTema').innerText = '--'; $('tObj').innerText = '--'; $('tFile').innerText = '--';
+        return;
+      }
+      const p = projects[s];
+      $('tTema').innerText = p.tema || 'Sin tema';
+      $('tObj').innerText = p.obj || 'Sin objetivo';
+      $('tFile').innerText = p.file || 'Ningún archivo subido';
+      $('tObs').value = p.obs || '';
+    }
+
+    function sendTutor() {
+      const s = $('tStudentSel').value;
+      if (!s) return alert('Selecciona un estudiante para dictaminar.');
+
+      const p = projects[s];
+      if (p.status === 'Sin entrega') return alert('El estudiante aún no ha enviado avances.');
+
+      const dec = $('tDecision').value;
+      const obs = $('tObs').value.trim();
+
+      if (!dec) return alert('Debes seleccionar una resolución técnica.');
+      if (dec === 'Rechazado' && obs.length < 5) return alert('Para rechazar debes detallar las observaciones (mínimo 5 letras).');
+
+      p.status = dec;
+      p.obs = obs;
+
+      // Actualizar el estado en el historial de la última versión
+      if (p.versions.length) p.versions[p.versions.length - 1].estado = dec;
+
+      alert(`Resolución "${dec}" registrada para el estudiante.`);
+      render();
+    }
+
+    // ----------------------------------------------------
+    // LÓGICA: AVAL TRIBUNAL
+    // ----------------------------------------------------
+    function renderTribunal() {
+      // Regla de negocio: Únicamente proyectos con "Tutoría Culminada"
+      const ready = getStudents().filter(s => projects[s].status === 'Tutoría Culminada');
+      const sel = $('avalSel');
+      const warn = $('triWarning');
+
+      if (ready.length > 0) {
+        warn.className = 'msg msg-ok';
+        warn.innerText = `Hay ${ready.length} proyecto(s) con tutoría culminada listos para calificar.`;
+        sel.innerHTML = ready.map(s => `<option value="${s}">${users[s].name} - ${projects[s].tema}</option>`).join('');
+      } else {
+        warn.className = 'msg msg-warn';
+        warn.innerText = 'No hay expedientes listos. El docente tutor debe marcar la tutoría como "Culminada" primero.';
+        sel.innerHTML = '<option value="">-- Sin actas habilitadas --</option>';
+      }
+      updateProm();
+    }
+
+    function updateProm() {
+      const n1 = parseFloat($('n1').value);
+      const n2 = parseFloat($('n2').value);
+      $('promTxt').innerText = (isNaN(n1) || isNaN(n2)) ? '--' : ((n1 + n2) / 2).toFixed(1);
+    }
+
+    function sendTribunal() {
+      const s = $('avalSel').value;
+      if (!s) return alert('No hay ningún proyecto habilitado para emitir aval.');
+
+      if (projects[s].status !== 'Tutoría Culminada') {
+        return alert('Inconsistencia: El tutor debe dar por culminada la tutoría antes de calificar.');
+      }
+
+      if (!$('chk1').checked || !$('chk2').checked || !$('chk3').checked) {
+        return alert('Requisito legal: Debes verificar y marcar todos los puntos del checklist.');
+      }
+
+      const n1 = parseFloat($('n1').value);
+      const n2 = parseFloat($('n2').value);
+      if (isNaN(n1) || isNaN(n2) || n1 < 1 || n1 > 10 || n2 < 1 || n2 > 10) {
+        return alert('Las calificaciones deben ser números válidos entre 1.0 y 10.0');
+      }
+
+      const prom = ((n1 + n2) / 2).toFixed(1);
+      projects[s].status = `Avalado (${prom}/10)`;
+      projects[s].nota = prom;
+
+      ['chk1', 'chk2', 'chk3'].forEach(id => $(id).checked = false);
+      alert(`¡Aval de Titulación firmado exitosamente para ${users[s].name} con nota final de ${prom}/10!`);
+      render();
+    }
+
+    // ----------------------------------------------------
+    // ENCRIPTADOR / DESPACHADOR CENTRAL (RENDER)
+    // ----------------------------------------------------
+    function render() {
+      if (!current) return;
+      const role = users[current].role;
+      if (role === 'estudiante') renderStudent();
+      if (role === 'coordinador') renderCoordinator();
+      if (role === 'tutor') renderTutor();
+      if (role === 'tribunal') renderTribunal();
+    }
+  </script>
+</body>
+</html>
