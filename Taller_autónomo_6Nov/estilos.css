@@ -1,0 +1,131 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #fce7ed;
+  color: #4a3e44;
+  display: flex;
+  justify-content: center;
+  padding: 30px 15px;
+}
+
+.contenedor {
+  width: 100%;
+  max-width: 860px;
+  background-color: #ffffff;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(230, 165, 185, 0.35);
+  border: 1px solid #f8d2de;
+}
+
+h2, h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #c06382;
+}
+
+.grupo-campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+.fila, .fila-tres {
+  display: flex;
+  gap: 15px;
+}
+
+label {
+  font-size: 13.5px;
+  margin-bottom: 6px;
+  color: #715563;
+  font-weight: 600;
+}
+
+input, select {
+  padding: 10px 14px;
+  border: 1.5px solid #f3c9d7;
+  border-radius: 8px;
+  background-color: #fdf5f7;
+  color: #4a3e44;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+input:focus, select:focus {
+  border-color: #e282a2;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(244, 168, 194, 0.6);
+}
+
+.error {
+  color: #d94b6e;
+  font-size: 12px;
+  margin-top: 4px;
+  min-height: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #e282a2;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 8px;
+}
+
+button:hover {
+  background-color: #cc6c8c;
+  box-shadow: 0 4px 14px rgba(226, 130, 162, 0.45);
+}
+
+.seccion-tabla {
+  margin-top: 35px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 11px 12px;
+  text-align: left;
+  border-bottom: 1px solid #fae1e8;
+  font-size: 13px;
+}
+
+th {
+  background-color: #fbe5ec;
+  color: #9c4363;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #fff9fb;
+}
+
+tr:hover {
+  background-color: #fae7ee;
+}
+
+@media (max-width: 600px) {
+  .fila, .fila-tres {
+    flex-direction: column;
+    gap: 0;
+  }
+}

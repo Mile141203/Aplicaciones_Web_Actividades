@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Estudiantes</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <div class="contenedor">
+    <h2>Registro de Estudiantes</h2>
+
+    <form id="formularioEstudiante">
+      <div class="grupo-campo">
+        <label for="cedula">Cédula (10 dígitos):</label>
+        <input type="text" id="cedula" maxlength="10" placeholder="Ej. 1312345678">
+        <span class="error" id="errorCedula"></span>
+      </div>
+
+      <div class="fila">
+        <div class="grupo-campo">
+          <label for="apellidos">Apellidos:</label>
+          <input type="text" id="apellidos" placeholder="Ej. Loor Zambrano">
+          <span class="error" id="errorApellidos"></span>
+        </div>
+        <div class="grupo-campo">
+          <label for="nombres">Nombres:</label>
+          <input type="text" id="nombres" placeholder="Ej. Milena Nicole">
+          <span class="error" id="errorNombres"></span>
+        </div>
+      </div>
+
+      <div class="grupo-campo">
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" placeholder="Ej. Calle 12 y Av. 24">
+        <span class="error" id="errorDireccion"></span>
+      </div>
+
+      <div class="fila">
+        <div class="grupo-campo">
+          <label for="telefono">Teléfono (10 dígitos):</label>
+          <input type="text" id="telefono" maxlength="10" placeholder="Ej. 0991234567">
+          <span class="error" id="errorTelefono"></span>
+        </div>
+        <div class="grupo-campo">
+          <label for="correo">Correo Electrónico:</label>
+          <input type="text" id="correo" placeholder="Ej. usuario@dominio.com">
+          <span class="error" id="errorCorreo"></span>
+        </div>
+      </div>
+
+      <div class="fila-tres">
+        <div class="grupo-campo">
+          <label for="facultad">Facultad:</label>
+          <select id="facultad">
+            <option value="">Seleccione...</option>
+            <option value="Ingeniería, Industria y Construcción">Ingeniería, Industria y Construcción</option>
+            <option value="Ciencias Administrativas y Contables">Ciencias Administrativas y Contables</option>
+            <option value="Ciencias de la Salud">Ciencias de la Salud</option>
+            <option value="Educación, Turismo y Humanidades">Educación, Turismo y Humanidades</option>
+          </select>
+          <span class="error" id="errorFacultad"></span>
+        </div>
+
+        <div class="grupo-campo">
+          <label for="nivel">Nivel / Semestre:</label>
+          <select id="nivel">
+            <option value="">Nivel...</option>
+            <option value="1">1er Nivel</option>
+            <option value="2">2do Nivel</option>
+            <option value="3">3er Nivel</option>
+            <option value="4">4to Nivel</option>
+            <option value="5">5to Nivel</option>
+            <option value="6">6to Nivel</option>
+            <option value="7">7mo Nivel</option>
+            <option value="8">8vo Nivel</option>
+          </select>
+          <span class="error" id="errorNivel"></span>
+        </div>
+
+        <div class="grupo-campo">
+          <label for="paralelo">Paralelo:</label>
+          <input type="text" id="paralelo" maxlength="1" placeholder="Ej. A">
+          <span class="error" id="errorParalelo"></span>
+        </div>
+      </div>
+
+      <button type="submit" id="btnGuardar">Guardar Estudiante</button>
+    </form>
+
+    <div class="seccion-tabla">
+      <h3>Estudiantes Registrados</h3>
+      <table id="tablaEstudiantes">
+        <thead>
+          <tr>
+            <th>Cédula</th>
+            <th>Estudiante</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Facultad</th>
+            <th>Nivel</th>
+            <th>Paralelo</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpoTabla">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
